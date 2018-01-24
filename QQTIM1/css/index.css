@@ -1,0 +1,90 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+.nav {
+    height: 150px;
+    background: url('../images/nav_bg.png') repeat-x;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.product {
+    height: 880px;
+    background: url('../images/banner-bg.jpg') no-repeat center top;
+}
+
+.product .pro {
+    width: 90%;
+    height: 300px;
+    background: url('../images/banner-product.png') no-repeat center / cover;
+    position: absolute;
+    bottom: -100px;
+    margin-left: 5%;
+}
+
+.sound .con {
+    height: 300px;
+    background: url('../images/sound-text.png') no-repeat center /cover;
+}
+
+.sound .tel {
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+
+.sound .tel img {
+    width: 664px;
+    height: 700px;
+    position: absolute;
+    margin-left: 200px;
+    top: -200px;
+}
+
+.sound .bg {
+    background: url('../images/sound-bg.jpg') no-repeat center /cover;
+    height: 600px;
+}
+
+.email .bg {
+    height: 600px;
+    background: url('../images/file-bg.jpg') no-repeat center /cover;
+}
+
+.email .message {
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+
+.email .message img {
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top: 100px;
+    right: 150px;
+}
+
+.interest .bg {
+    height: 500px;
+    background: url('../images/interest-bg.jpg') no-repeat center /cover;
+}
+
+.interest .con {
+    height: 500px;
+    margin-left: 100px;
+    padding-bottom: 6px;
+}
+
+.footer {
+    height: 500px;
+    background: #666;
+}
+
+.interest .bg,
+.email .bg,
+.sound .bg{
+    background-attachment: fixed;
+}
