@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav {
+            height: 30px;
+            background: #036663;
+            border-bottom: 1px solid #369;
+            line-height: 30px;
+            padding-left: 30px;
+        }
+
+        .nav a {
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            text-decoration: none;
+
+        }
+
+        .d-box {
+            width: 400px;
+            height: 300px;
+            border: 5px solid #eee;
+            box-shadow: 2px 2px 2px 2px #666;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+
+        .hd {
+            width: 100%;
+            height: 25px;
+            background-color: #7c9299;
+            border-bottom: 1px solid #369;
+            line-height: 25px;
+            color: white;
+            cursor: move;
+        }
+
+        #box_close {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+    <script src="jquery1.11.1.js"></script>
+    <script>
+        window.onload = function () {
+            //需求: 鼠标按下在移动，整个大盒子跟随鼠标的坐标来更改自己的坐标;
+                    //技术点：两个事件组成一个需求：按下然后在移动;
+
+            var box = document.getElementById("d_box");
+            var drop = document.getElementById("drop");
+            //绑定事件（鼠标在drop上按下，然后在移动触动整个逻辑...）
+            drop.onmousedown = function (event) {
+                //获取鼠标在盒子中的坐标;
+                event = event || window.event;
+                var pagex = event.pageX || event.clientX + scroll().left;
+                var pagey = event.pageY || event.clientY + scroll().top;
+                var boxx = box.offsetLeft;
+                var boxy = box.offsetTop;
+                var x = pagex - boxx;
+                var y = pagey - boxy;
+
+                //在drop上按下，在整个页面移动都要触动逻辑
+                document.onmousemove = function (event) {
+                    //获取鼠标在整个页面的坐标，然后赋值给box；
+                    //新七步
+                    event = event || window.event;
+                    var pagex = event.pageX || event.clientX + scroll().left;
+                    var pagey = event.pageY || event.clientY + scroll().top;
+
+                    //为了让鼠标还在原来的位置，不是左上角在鼠标位置，减去鼠标在盒子中的坐标;
+                    //赋值box;
+                    if(pagey<60){
+                        pagey = 50;
+                    }
+                    box.style.left = pagex - x +"px";
+                    box.style.top = pagey - y  +"px";
+                    //取消选中状态
+                    window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+                }
+            }
+
+
+            //需求2：鼠标弹起事件解绑
+            //在整个也哪里弹起都要事件解绑
+            document.onmouseup = function () {
+                document.onmousemove = null;
+            }
+
+        }
+    </script>
+</head>
+<body>
+
+    <div class="nav">
+        <a href="javascript:;" id="register">注册信息</a>
+    </div>
+
+    <!--用来移动的盒子-->
+    <div class="d-box" id="d_box">
+        <!--功能部分-->
+        <div class="hd" id="drop">
+            注册信息 (可以拖拽)
+            <span id="box_close">【关闭】</span>
+        </div>
+        <div class="bd"></div>
+    </div>
+
+</body>
+</html>
