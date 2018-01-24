@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    .userInfo {
+      border: 1px solid blue;
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 600px;
+      margin: 10px auto;
+      text-align: center;
+    }
+
+    table th,table td {
+      border:1px solid;
+    }
+
+    table th {
+      border-color: cornflowerblue;
+      background-color: darkcyan;
+      padding:20px 0;
+      color:gold;
+    }
+
+    table td {
+      border-color: aquamarine;
+      background-color: deepskyblue;
+      padding: 10px 0;
+    }
+    tbody tr:hover td {
+      background-color: aquamarine;
+      color:red;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="userInfo">
+    <p>
+      <label>用户名：<input type="text" id="userName"/></label>
+    </p>
+    <p>
+      <label>学　号：<input type="text" id="num"/></label>
+    </p>
+    <p>
+      <label>年　龄：<input type="text" id="age"/></label>
+    </p>
+    <p>
+      <button id="add">添加</button>
+    </p>
+  </div>
+  <div class="userList">
+    <table>
+      <thead>
+      <tr>
+        <th>用户名</th>
+        <th>学号</th>
+        <th>年龄</th>
+        <th>时间</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>张三</td>
+          <td>10010</td>
+          <td>17</td>
+          <td>2016/10/10 22:22:22</td>
+          <td><button id="del">删除</button></td>
+        </tr>
+        <tr>
+          <td>李四</td>
+          <td>10086</td>
+          <td>18</td>
+          <td>2016/10/10 22:44:22</td>
+          <td><button>删除</button></td>
+        </tr>
+        <tr>
+          <td>李四</td>
+          <td>10086</td>
+          <td>18</td>
+          <td>2016/10/10 22:44:22</td>
+          <td><button>删除</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+  	//获取时间
+  	function getNew(time){
+  		var date=time;
+  		var  year=date.getFullYear();
+  		var month=date.getMonth();
+  		var day=date.getDate();
+  		var hour=date.getHours();
+  		var minutes=date.getMinutes();
+  		var seconds=date.getSeconds();
+  		
+  		month=month<10?'0'+month:month;
+  		day=day<10?'0'+day:day;
+  		hour=hour<10?'0'+hour:hour;
+  		minutes=minutes<10?'0'+minutes:minutes;
+  		seconds=seconds<10?'0'+seconds:seconds;
+  		
+  		var str=year+'/'+month+'/'+day+'/'+' '+hour+':'+minutes+':'+seconds;
+  		return str;
+  	}
+  	
+  	
+  	
+  	
+  	//获取节点对象  添加按钮 三个输入框   tbody
+  	var addBtn=document.querySelector('#add');
+  	var userName=document.querySelector('#userName');
+  	var num=document.querySelector('#num');
+  	var age=document.querySelector('#age');
+  	var tbody=document.querySelector('tbody');
+  	var delBtn=document.querySelector('#del');
+  	//给addBtn绑定事件
+  	addBtn.onclick=function(){
+  		
+  		//获取三个输入框的值
+  		var userNameVlaue=userName.value;
+  		var numVlaue=num.value;
+  		var ageVlaue=age.value;
+  		var date=new Date();
+  		var dateNew=getNew(date);
+        var delBtnVlaue='<button>删除</button>';
+  		
+  		//创建一个新的tr
+  		
+  		var trNew=document.createElement('tr'); //不熟练
+  		trNew.innerHTML='<td>'+userNameVlaue+'</td>'+
+  										'<td>'+numVlaue+'</td>'+
+  										'<td>'+ageVlaue+'</td>'+
+  										'<td>'+dateNew+'</td>'+
+  										'<td>'+delBtnVlaue+'</td>';
+      tbody.appendChild(trNew);
+  		
+  		
+  	}
+  	
+  	//给button del添加删除事件
+    tbody.onclick=function(e){
+      var _e= window.event  || e;
+
+      var _target=_e.target || _e.srcElement;
+
+      if(_target.tagName=='BUTTON'){
+
+        var tr=_target.parentNode.parentNode;
+
+        tbody.removeChild(tr);
+      }
+    }
+  </script>
+	</body>
+</html>
