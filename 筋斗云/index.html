@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        body {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .box {
+            width: 800px;
+            height: 42px;
+            position: relative;
+            border-radius: 10px;
+            margin: 100px auto;
+            background: #fff url("images/wifi.png") no-repeat right center;
+        }
+        ul li {
+            float: left;
+            width: 83px;
+            height: 42px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 42px;
+            position: relative;
+            z-index: 1;
+        }
+        p {
+            width: 83px;
+            height: 42px;
+            background: url("images/cloud.gif") no-repeat;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box" id="box">
+        <ul>
+            <li>首页新闻</li>
+            <li>师资力量</li>
+            <li>活动策划</li>
+            <li>企业文化</li>
+            <li>招聘信息</li>
+            <li>公司简介</li>
+            <li>上海校区</li>
+            <li>广州校区</li>
+        </ul>
+        <p></p>
+    </div>
+
+
+    <script>
+        //需求1：鼠标进入哪个li，P就移动到哪里;
+        //需求2：鼠标移开box，P就移动到记录点位置;
+        //需求3：鼠标点击哪个li，该li就成为记录点;
+
+        //获取元素
+        var box = document.getElementById("box");
+        var ul = box.firstElementChild || box.firstChild;
+        var liArr = ul.children;
+        var p = ul.nextElementSibling || ul.nextSibling;
+        var pWidth = p.scrollWidth;
+        //计数器思想
+        var count = 0;//默认第一个
+        //绑定事件
+        for(var i=0;i<liArr.length;i++){
+            //需求1：鼠标进入哪个li，P就移动到哪里;
+                //移动的距离和li的索引值相同*p的宽;
+            //自定义属性绑定索引值
+            liArr[i].index = i;
+            liArr[i].onmouseover = function () {
+                animate(p, pWidth*this.index);
+            }
+
+            //需求3：鼠标点击哪个li，该li就成为记录点;
+            liArr[i].onclick = function () {
+                //计数器思想(记录)
+                count = this.index;
+            }
+        }
+
+        //需求2：鼠标移开box，P就移动到记录点位置;
+        box.onmouseout = function () {
+            //移开的时候应该是移动到记录点
+            animate(p, count*pWidth);
+        }
+
+
+
+
+
+
+
+
+        //封装函数缓动动画
+        function animate(ele,target){
+            //要用先清，一盒一定时
+            clearInterval(ele.timer);
+            ele.timer = setInterval(function () {
+                //1.获取步长
+                var step = (target-ele.offsetLeft)/10;
+                //2.二次处理步长
+                step = step>0?Math.ceil(step):Math.floor(step);
+                //3.赋值
+                ele.style.left = ele.offsetLeft+step+"px";
+                //4.清除定时器
+                console.log(1);
+                if(Math.abs(target-ele.offsetLeft) <= Math.abs(step)){
+                    ele.style.left = target+"px";
+                    clearInterval(ele.timer);
+                }
+            },15);
+        }
+    </script>
+</body>
+</html>
