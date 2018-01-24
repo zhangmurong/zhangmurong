@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<!--版心-->
+<div class="container">
+    <!--tab切换模块-->
+    <div class="tab">
+        <!--切换按钮-->
+        <ul class="tab-control">
+            <li class="active2">疯狂抢购</li>
+            <li>热卖推荐</li>
+            <li>猜你喜欢</li>
+            <li>新品上架</li>
+            <li>整箱特卖</li>
+        </ul>
+        <!--切换项-->
+        <div class="tab-content">
+            <div class="tab-content-item active">
+                <img src="img/01.bmp"/>
+            </div>
+            <div class="tab-content-item">
+                <img src="img/02.bmp"/>
+            </div>
+            <div class="tab-content-item">
+                <img src="img/03.bmp"/>
+            </div>
+            <div class="tab-content-item">
+                <img src="img/04.bmp"/>
+            </div>
+            <div class="tab-content-item">
+                <img src="img/05.bmp"/>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    /*
+        思路：需求（要是现什么功能） + 技术（要用什么技术解决）
+    */
+    //① 获取所要操作的节点对象 一组li  和 一组类名为tab-content-item div
+    var lisNode = document.querySelectorAll('.tab ul li');//一组li节点对象
+    var divItemsNode = document.querySelectorAll('.tab .tab-content .tab-content-item'); //一组内容项div节点对象
+
+    //② 循环遍历每一个li，并给每一个li绑定点击事件 onclick
+    for(var index = 0;index<lisNode.length;index++){
+        lisNode[index].xiaBiao = index; //给每一个节点对象添加一个键值对：xiaBiao:li的位置
+        lisNode[index].onclick = function(){
+            //③ 点击那个li就变化那个li
+            //this代表当前触发的那个节点
+            for(var j = 0;j<lisNode.length;j++){
+                /*更改li*/
+                lisNode[j].style.backgroundColor = '#ccc'; //更改背景色
+                lisNode[j].style.color = '#000';//字体颜色
+                lisNode[j].style.borderTop = '3px solid #aaa';//字体颜色
+                /*更改内容项div*/
+                divItemsNode[j].style.display='none';
+
+            }
+            this.style.backgroundColor = '#fff'; //更改背景色
+            this.style.color = 'red';//字体颜色
+            this.style.borderTop = '3px solid red';//字体颜色
+            //console.log(divItemsNode[this.xiaBiao]);
+            //显示对应的内容
+            divItemsNode[this.xiaBiao].style.display = 'block';
+        };
+    }
+
+</script>
+</body>
+</html>
