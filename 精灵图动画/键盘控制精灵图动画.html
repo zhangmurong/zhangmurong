@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    canvas {
+        border: 1px solid #ccc;
+    }
+</style>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+</body>
+<script>
+    //    声明构造函数
+    var Person = function (ctx) {
+        this.ctx = ctx || document.querySelector('canvas').getContext('2d');
+        this.imageSrc = 'images/04.png';
+        // 获取画布的宽高
+        this.canvasWidth = this.ctx.canvas.width;
+        this.canvasHeight = this.ctx.canvas.height;
+        // 获取画布的中心点坐标
+        this.x0 = this.canvasWidth / 2;
+        this.y0 = this.canvasHeight / 2;
+        // 记录图片的排数 以及方向
+        this.direction = 0;
+        this.stepSize = 10;
+        this.stepY = 0;
+        this.stepX = 0;
+        this.index = 0;
+
+        this.init();
+    }
+    Person.prototype.init = function () {
+        var that=this;
+        this.loadImage(function(image){
+            that.image=image;
+            // 图片尺寸
+            that.personW=image.width/4;
+            that.PersonH=image.height/4;
+            // 绘制图片在画布的中心
+            that.ctx.drawImage(
+            image,
+            0,0,
+            that.personW,that.personH,
+            that.x0-that.personW/2,that.y0-that.personH/2,
+            that.personW,that.personH
+            );
+            that.bindEvent();
+        });
+    }
+    Person.prototype.loadImage = function () {
+        var image=new Image();
+        image.load=function(callback){
+            callback && callback(image);
+        };
+        // 图片路径
+        image.src=this.imageSrc;
+    };
+    Person.prototype.bindEvent=function(){
+        var  that=this;
+        document.onkeydown=function(e){
+            if(e.keyCode==38){
+                that.direction=3;
+                that.stepY--;
+                that.drawPerson();
+            }else if(e.keyCode == 40){
+                that.direction = 0;
+                that.stepY++;
+                that.drawPerson();
+            } else if (e.keyCode == 37) {
+                that.direction = 1;
+                that.stepX--;
+                that.drawPerson();
+            }
+            else if (e.keyCode == 39) {
+                that.direction = 2;
+                that.stepX++;
+                that.drawPerson();
+            };
+        };
+    };
+    Person.prototype.drawPerson = function () {
+        // 清除画布上之前的内容
+        this.ctx.clearRect(
+        0,0,
+        this.canvasWidth,this.canvasHeight);
+        // 绘图
+        this.index++;
+        if(index>3){
+            index=0;
+        }
+        this.ctx.drawImage(
+            this.image,
+            this.index*this.personW,this.direction*this.personH,
+            this.personW,this.personH,
+            this.x0-this.personW/2+this.stepX*this.stepSize,
+            this.y0-this.personH/2+this.stepY*this.stepSize,
+            this.personW,this.personH
+        );
+    };
+    new Person();
+</script>
+
+</html>

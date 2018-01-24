@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    canvas{
+        border: 1px solid #ccc;
+    }
+</style>
+<body>
+    <canvas width="600" height="400"></canvas>
+</body>
+<script>
+    var canvas=document.querySelector('canvas');
+    var ctx=canvas.getContext('2d');
+    var image=new Image();
+    image.onload=function(){
+        // 绘制精灵图的坐标 在画布的中心
+        var x0=ctx.canvas.width/2;
+        var y0=ctx.canvas.height/2;
+        // 获取精灵图的宽高
+        var imageW=image.width/4;
+        var imageH=image.height/4;
+        // 绘制精灵图动画
+        var index=0;
+        setInterval(function(){
+            if(index>3){
+                index=0;
+            }
+            ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+            ctx.drawImage(
+                image,
+                index*imageW,0,
+                imageW,imageH,
+                x0-imageW/2,y0-imageH,
+                imageW,imageH
+                );
+            index++;
+        },200);
+    };
+    image.src='images/04.png';
+        
+</script>
+</html>
