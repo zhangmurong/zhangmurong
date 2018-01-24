@@ -1,0 +1,220 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>无标题文档</title>
+    <style type="text/css">
+        body, ul, ol, li, img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 490px;
+            height: 170px;
+            padding: 5px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 100px auto 0;
+            overflow: hidden;
+        }
+
+        .ad {
+            width: 490px;
+            height: 170px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #box img {
+            width: 490px;
+        }
+
+        .ad ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .ad ol li {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            background: #fff;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+            _display: inline;
+        }
+
+        .ad ol li.current {
+            background: yellow;
+        }
+
+        .ad ul li {
+            float: left;
+        }
+
+        .ad ul {
+            position: absolute;
+            top: 0;
+            width: 2940px;
+        }
+
+        .ad ul li.current {
+            display: block;
+        }
+
+        #arr {
+            display: none;
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            //需求1：鼠标进入最大的盒子，显示#arr，移开有隐藏;
+            //需求2：鼠标点击右侧按钮，ul向左走一张;(左侧逻辑相反)
+
+            //需求1：鼠标进入最大的盒子，显示#arr，移开有隐藏;
+            var box = document.getElementById("box");
+            var ad = box.firstElementChild || box.firstChild;
+            var ul = ad.children[0];
+            var arr = document.getElementById("arr");
+            var left = arr.children[0];
+            var right = arr.children[1];
+            var imgWidth = ad.offsetWidth;
+            //鼠标进入box，显示arr
+            box.onmouseover = function () {
+                arr.style.display = "block";
+            }
+            box.onmouseout = function () {
+                arr.style.display = "none";
+            }
+
+            //需求2：鼠标点击右侧按钮，ul向左走一张;(左侧逻辑相反)
+                    //右侧按钮，本质就是控制索引值自增,但是现在没有小方块;---自定义索引值;
+            //自定义一个索引值(左右两个按钮都能控制)
+            var index = 0;
+            right.onclick = function () {
+                index++;
+                //index的值是有范围的[0-4]
+                if(index == 5){
+                    index = 4;
+                    alert("这已经是最后一张了，不能再次点击了！！！");
+                    return;
+                }
+                //移动ul;
+                var sss = -index*imgWidth;
+                animate(ul,sss);
+            }
+
+            //左侧逻辑相反
+            left.onclick = function () {
+                index--;
+                //index的值是有范围的[0-4]
+                if(index == -1){
+                    index = 0;
+                    alert("这已经是第一张了，不能再次点击了！！！");
+                    return;
+                }
+                //移动ul;
+                var sss = -index*imgWidth;
+                animate(ul,sss);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //匀速动画封装
+        function animate(ele,target){
+            //要用定时器先清定时器;
+            clearInterval(ele.timer);
+            ele.timer = setInterval(function () {
+                //1.获取步长
+                var step = target>ele.offsetLeft?10:-10;
+                //2.赋值
+                ele.style.left = ele.offsetLeft+step+"px";
+                //3.停止定时器(如果走过了，或者向后退了一步，也清除，赋值目标位置)
+                console.log(1);
+                //目标位置和当前位置的差值，不足一个步长的时候;
+                if(Math.abs(target-ele.offsetLeft) <= Math.abs(step)){
+                    //设置目标位置，清除定时器
+                    ele.style.left = target+"px";
+                    clearInterval(ele.timer);
+                }
+            },10);
+        }
+    </script>
+</head>
+<body>
+
+    <div id="box" class="all">
+        <div class="ad">
+            <ul id="imgs">
+                <li><img src="images/1.jpg"/></li>
+                <li><img src="images/2.jpg"/></li>
+                <li><img src="images/3.jpg"/></li>
+                <li><img src="images/4.jpg"/></li>
+                <li><img src="images/5.jpg"/></li>
+            </ul>
+        </div>
+        <div id="arr">
+            <span id="left"><</span>
+            <span id="right">></span>
+        </div>
+    </div>
+
+</body>
+</html>
